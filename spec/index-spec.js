@@ -2,12 +2,17 @@ var request = require('supertest')
 var app     = require('../index.js')
 
 describe('first scene graph API', function() {
-  it('responds to GET', function(done) {
+  it('responds to GET /scene-graph-1', function(done) {
+    expected_graph = {
+      parent: "root",
+      children: []
+    }
+    
     request(app)
       .get('/scene-graph-1')
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
-      .expect(200, done)
+      .expect(200, expected_graph, done)
   })
   
 })
