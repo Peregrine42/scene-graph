@@ -1,5 +1,5 @@
 var request = require('supertest')
-var app     = require('../index.js')
+var app     = require('../app.js')
 
 describe('first scene graph API', function() {
   it('responds to GET /scene-graph-1', function(done) {
@@ -14,5 +14,4 @@ describe('first scene graph API', function() {
       .expect('Content-Type', /json/)
       .expect(200, expected_graph, done)
   })
-  
 })

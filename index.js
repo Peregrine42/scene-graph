@@ -1,14 +1,7 @@
-var express = require('express');
-var app = express();
+var app = require('./app.js');
 
-app.get('/scene-graph-1', function(req, res){
-  static_graph = {
-    parent: "root",
-    children: []
-  }
-  res
-    .status(200)
-    .send(static_graph);
-});
-
-module.exports = app;
+var server = app.listen(3000, function() {
+  var host = server.address().address;
+  var port = server.address().port;
+  console.log('app listening at http://%s:%s', host, port);
+})
