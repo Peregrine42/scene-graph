@@ -10,7 +10,7 @@ describe("the ajax wrapper", function() {
     server.restore();
   })
   
-  it('calls the radio API with HTTP-requested content', function() {
+  it('passes the content of a HTTP GET to a callback', function() {
     server.respondWith(
       "GET",
       "scene-graph-1",
@@ -24,5 +24,21 @@ describe("the ajax wrapper", function() {
     http_wrapper.get_json("scene-graph-1", callback, error);
     server.respond();
     sinon.assert.calledWith(callback, {parent: null, children: []});
+  });
+  
+  context('when the wrong content is requested', function() {
+    it('passes the status code to an error callback', function() {
+      server.respondWith(
+        "GET",
+        "bad-request",
+        [ 501, "headers", "body"]
+      )
+      
+      var callback = sinon.spy();
+      var error    = sinon.spy();
+      http_wrapper.get_json("bad-request", callback, error);
+      server.respond();
+      sinon.assert.calledWith(error, 501);
+    });
   });
 });
