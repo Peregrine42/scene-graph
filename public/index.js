@@ -10,7 +10,7 @@ var render = function(message) {
 }
 
 var get_error_message = function(message) {
-  return 'foo ' + message;
+  return `error ${message}`;
 }
 
 var server_path = "/scene-graph-1";
