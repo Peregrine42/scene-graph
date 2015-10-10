@@ -5,21 +5,13 @@ var wait_for = function() {
   var func = array.shift();
   var deferrer = {};
   deferrer.chain = [];
-  var new_func = function() {
-    var args = Array.prototype.slice.call(arguments);
-    var new_args = args.concat(array);
-    return func.apply(null, new_args)
-  };
-  deferrer.chain.push(new_func);
+  var partially_applied = partial_maker(arguments, array, func)
+  deferrer.chain.push(partially_applied);
   deferrer.and_call = function() {
     var array = Array.prototype.slice.call(arguments);
     var func = array.shift();
-    var new_func = function() {
-      var args = Array.prototype.slice.call(arguments);
-      var new_args = args.concat(array);
-      return func.apply(null, new_args)
-    };
-    deferrer.chain.push(new_func);
+    var partially_applied = partial_maker(arguments, array, func)
+    deferrer.chain.push(partially_applied);
     return deferrer;
   },
   deferrer.go = function() {
@@ -28,5 +20,14 @@ var wait_for = function() {
   deferrer.build = nester;
   return deferrer;
 };
+
+function partial_maker(arguments, array, func) {
+  var result = function() {
+    var args = Array.prototype.slice.call(arguments);
+    var new_args = args.concat(array);
+    return func.apply(null, new_args)
+  };
+  return result;
+}
 
 module.exports = wait_for;
