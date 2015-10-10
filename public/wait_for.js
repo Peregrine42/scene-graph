@@ -19,7 +19,7 @@ var wait_for = function() {
       var new_args = args.concat(array);
       return func.apply(null, new_args)
     };
-    this.chain.push(new_func);
+    deferrer.chain.push(new_func);
     return deferrer;
   },
   deferrer.go = function() {
