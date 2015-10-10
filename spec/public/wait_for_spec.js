@@ -15,6 +15,14 @@ describe('wait_for', function() {
   });
   
   it('returns an object that can be chained', function() {
+    var builder = function() {
+      var functions = Array.prototype.slice.call(arguments);
+      var result = functions.shift()();
+      functions.forEach(function(func) {
+        result = func(result);
+      })
+      return result;
+    }
     var one_function = function() { return 'one, ' };
     var two_function = function(x) { 
       return x + 'two, ' 
@@ -30,20 +38,13 @@ describe('wait_for', function() {
       },
       deferrer.go = function() {
         return deferrer.build.apply(this, this.chain);
-      }
-      deferrer.build = function() {
-        var functions = Array.prototype.slice.call(arguments);
-        var result = functions.shift()();
-        functions.forEach(function(func) {
-          result = func(result);
-        })
-        return result;
-      }
+      },
+      deferrer.build = builder;
       return deferrer;
     }
     
     expect(three_function(two_function(one_function()))).to.be('one, two, three!')
-    // expect(builder(one_function, two_function, three_function)).to.be('one, two, three!');
+    expect(builder(one_function, two_function, three_function)).to.be('one, two, three!');
     expect(wait_for(one_function)
       .and_call(two_function)
       .and_call(three_function).go()
