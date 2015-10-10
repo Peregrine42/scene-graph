@@ -8,6 +8,7 @@ app.get('/scene-graph-1', function(req, res){
   }
   res
     .status(200)
+    .set({ 'Content-Type': 'application/json' })
     .send(static_graph);
 });
 

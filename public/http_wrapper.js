@@ -5,11 +5,11 @@ http_wrapper = {
     xhr.onload = function() {
       var content_type = xhr.getResponseHeader('content-type');
       if (xhr.status === 200) {
-        if (content_type === "application/json") {
+        if (content_type.indexOf("application/json") > -1) {
           var response = JSON.parse(xhr.response);
           callback(response);
         } else {
-          error('content-type is not json!');
+          error('content-type is not json, it is ' + content_type);
         }
       } else {
         error(xhr.status + " " + xhr.statusText);

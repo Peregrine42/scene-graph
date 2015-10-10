@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/Peregrine42/scene-graph#readme",
   "devDependencies": {
+    "babelify": "^6.3.0",
     "expect.js": "^0.3.1",
     "express": "^4.13.3",
     "karma": "^0.13.10",
@@ -32,5 +33,6 @@
   },
   "dependencies": {
     "express": "^4.13.3"
-  }
+  },
+  "transform": [["babelify", { "blacklist": ["regenerator"] }]]
 }
