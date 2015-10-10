@@ -1,7 +1,7 @@
 var http_wrapper = require("../../public/http_wrapper.js");
 var sinon        = require("sinon");
 
-describe("the ajax wrapper", function() {
+describe("html wrapper", function() {
   before(function() {
     server = sinon.fakeServer.create();
   })
@@ -31,14 +31,14 @@ describe("the ajax wrapper", function() {
       server.respondWith(
         "GET",
         "bad-request",
-        [ 501, "headers", "body"]
+        [ 500, "headers", "body"]
       )
       
       var callback = sinon.spy();
       var error    = sinon.spy();
       http_wrapper.get_json("bad-request", callback, error);
       server.respond();
-      sinon.assert.calledWith(error, 501);
+      sinon.assert.calledWith(error, "500 Internal Server Error");
     });
   });
 });
