@@ -52,6 +52,14 @@ describe('wait_for', function() {
   })
 });
 
+describe('currying', function() {
+  it('sorts everything out', function() {
+    var a_function = function(a, b) { return a + ' + ' + b };
+    var result = a_function.bind(null, 'foo');
+    expect(result('fio')).to.be('foo + fio')
+  })
+});
+
 function get_func_arg(args) {
   var args = Array.prototype.slice.call(args);
   var func = args.shift();
