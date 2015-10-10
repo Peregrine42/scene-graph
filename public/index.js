@@ -1,9 +1,21 @@
 var m = require('mithril');
-var http_wrapper = require('./http_wrapper.js');
+var axios = require('axios');
+
+var process = function(message) {
+  return message.data;
+}
 
 var render = function(message) {
   console.log(message);
 }
 
+var get_error_message = function(message) {
+  return 'foo ' + message;
+}
+
 var server_path = "/scene-graph-1";
-http_wrapper.get_json(server_path, render, render);
+var response = axios.get(server_path)
+  .then(process)
+  .then(render)
+  .catch(get_error_message)
+  .catch(render);
